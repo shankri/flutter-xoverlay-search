@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xoverlay/RandomList.dart';
 import 'package:xoverlay/search_options.dart';
-import 'package:xoverlay/xwidgets/x-fad.dart';
-import 'package:xoverlay/xwidgets/x-overlay.dart';
 import 'package:xoverlay/xwidgets/x-search-textbox.dart';
 
 void main() => runApp(MyApp());

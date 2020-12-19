@@ -56,12 +56,14 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
   final TextEditingController _textEditingController = TextEditingController();
 
   bool _showSearchOverlay = false;
+  bool _initialLoadStatus = false;
   String _currentSearchVal;
 
   @override
   void initState() {
     super.initState();
     _currentSearchVal = widget.initialValueCallback();
+    _textEditingController.text = widget.initialValueCallback();
     this._showSearchOverlay = false;
     _searchTextEditingControllerListener();
     _searchTextFocusNodeListener();
@@ -110,7 +112,13 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
             child: IconButton(
               splashRadius: 20,
               icon: Icon(_showSearchOverlay ? Icons.arrow_drop_down : Icons.arrow_drop_up, color: Colors.grey[500]),
-              onPressed: () => setState(() => _showSearchOverlay = !_showSearchOverlay),
+              onPressed: () => setState(() {
+                _showSearchOverlay = !_showSearchOverlay;
+                if (!_initialLoadStatus) {
+                  _initialLoadStatus = true;
+                  widget.searchCallbackFunc(_textEditingController.text);
+                }
+              }),
             ),
           ),
         ]),
@@ -134,7 +142,7 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
             showCursor: true,
             focusNode: widget.searchTextFocusNode,
             controller: _textEditingController,
-            style: TextStyle(fontWeight: FontWeight.normal),
+            style: const TextStyle(fontWeight: FontWeight.normal),
             decoration: InputDecoration(labelText: widget.labelText, counterText: ''),
           ),
         ),
