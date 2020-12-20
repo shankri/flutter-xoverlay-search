@@ -54,7 +54,7 @@ class _XOverlayState extends State<XOverlay> {
   Widget build(BuildContext context) => CompositedTransformTarget(
         link: this._layerLink,
         child: XFAD(
-          onEscFunc: () => _hideOverlay(true),
+          onEscCallback: () => _hideOverlay(true),
           child: Container(
             key: _globalKeyParent,
             child: widget.child,

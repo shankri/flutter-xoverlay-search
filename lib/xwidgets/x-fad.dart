@@ -3,18 +3,20 @@ import 'package:flutter/services.dart';
 
 ///home for FocusableActionDetector related implementation
 class XFAD extends StatelessWidget {
-  final Function onEscFunc;
-  final Function onTabFunc;
-  final Function onShiftTabFunc;
-  final Function onEnter;
+  final Function onEscCallback;
+  final Function onTabCallback;
+  final Function onShiftTabCallback;
+  final Function onEnterCallback;
+  final ValueChanged<bool> onHoverCallback;
   final Widget child;
 
   XFAD({
     this.child,
-    this.onEscFunc,
-    this.onTabFunc,
-    this.onShiftTabFunc,
-    this.onEnter,
+    this.onEscCallback,
+    this.onTabCallback,
+    this.onShiftTabCallback,
+    this.onEnterCallback,
+    this.onHoverCallback,
     Key key,
   });
 
@@ -22,6 +24,7 @@ class XFAD extends StatelessWidget {
   Widget build(BuildContext context) => FocusableActionDetector(
         actions: _initActions(),
         shortcuts: _initShortcuts(),
+        onShowHoverHighlight: onHoverCallback,
         child: child,
       );
 
@@ -35,16 +38,16 @@ class XFAD extends StatelessWidget {
   void _actionHandler(_XIntent intent) {
     switch (intent.type) {
       case _XIntentType.Esc:
-        if (onEscFunc != null) onEscFunc();
+        if (onEscCallback != null) onEscCallback();
         break;
       case _XIntentType.Tab:
-        if (onTabFunc != null) onTabFunc();
+        if (onTabCallback != null) onTabCallback();
         break;
       case _XIntentType.ShifTab:
-        if (onShiftTabFunc != null) onShiftTabFunc();
+        if (onShiftTabCallback != null) onShiftTabCallback();
         break;
       case _XIntentType.Enter:
-        if (onEnter != null) onEnter();
+        if (onEnterCallback != null) onEnterCallback();
         break;
     }
   }

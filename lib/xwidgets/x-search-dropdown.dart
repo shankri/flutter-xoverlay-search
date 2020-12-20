@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xoverlay/xwidgets/x-fad.dart';
 import 'package:xoverlay/xwidgets/x-overlay.dart';
+import 'package:xoverlay/xwidgets/hover_extension.dart';
 
 typedef void SearchCallback(freeSearchTextAsUserIsTyping);
 typedef String InitialValueCallback();
@@ -108,7 +109,7 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
           _searchTextfield(),
           Positioned(
             right: 3,
-            top: 0,
+            top: 6,
             child: IconButton(
               splashRadius: 20,
               icon: Icon(_showSearchOverlay ? Icons.arrow_drop_down : Icons.arrow_drop_up, color: Colors.grey[500]),
@@ -130,12 +131,12 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
   Widget _searchTextfield() => Container(
         margin: EdgeInsets.fromLTRB(0, kIsWeb ? 1 : 0, 0, 0),
         child: XFAD(
-          onEscFunc: () {
+          onEscCallback: () {
             _xOverlayController.hideOverlay(true);
             XOverlayHideNotification()..dispatch(context);
           },
-          onTabFunc: () => widget.onTabCallback(),
-          onShiftTabFunc: () => widget.onShiftTabCallback(),
+          onTabCallback: () => widget.onTabCallback(),
+          onShiftTabCallback: () => widget.onShiftTabCallback(),
           child: TextField(
             autofocus: widget.autoFocus,
             cursorColor: Color.fromRGBO(155, 155, 155, 1),

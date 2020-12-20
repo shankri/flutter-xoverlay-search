@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xoverlay/RandomList.dart';
+import 'package:xoverlay/random_list.dart';
 import 'package:xoverlay/search_options.dart';
 import 'package:xoverlay/xwidgets/x-search-textbox.dart';
 
@@ -26,7 +26,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String freeSearchTextAsUserIsTyping = '';
+  String _freeSearchTextAsUserIsTyping = '';
+  String _currentSearch = '';
 
   @override
   Widget build(BuildContext context) => SafeArea(
@@ -35,20 +36,24 @@ class _MyHomePageState extends State<MyHomePage> {
             title: _searchTextbox(),
             toolbarHeight: 75,
           ),
-          body: Center(child: Text('Main body here')),
+          body: Center(child: Text(_currentSearch)),
         ),
       );
 
-  Widget _searchTextbox() => XSearchTextbox(
-        searchOptionsInOverlay: SearchOptionsScreen(),
-        suggestCallbackFunc: (freeSearchTextAsUserIsTyping) => setState(() => this.freeSearchTextAsUserIsTyping = freeSearchTextAsUserIsTyping),
-        searchHintText: 'Search words',
-        initialvalue: '',
-        searchFunc: (freeSearchValue) => print('time to search: $freeSearchValue'),
-        suggestListInOverlay: RandomList(
-          key: Key(freeSearchTextAsUserIsTyping),
-          freeSearchTextAsUserIsTyping: freeSearchTextAsUserIsTyping,
-          icon: Icon(Icons.mail),
-        ),
-      );
+  Widget _searchTextbox() {
+    return XSearchTextbox(
+      key: Key(_currentSearch),
+      searchOptionsInOverlay: SearchOptionsScreen(),
+      suggestCallbackFunc: (freeSearchTextAsUserIsTyping) => setState(() => this._freeSearchTextAsUserIsTyping = freeSearchTextAsUserIsTyping),
+      searchHintText: 'Search words',
+      initialvalue: _currentSearch,
+      searchFunc: (freeSearchValue) => setState(() => _currentSearch = freeSearchValue),
+      suggestListInOverlay: RandomList(
+          //key: Key(_freeSearchTextAsUserIsTyping),
+          freeSearchTextAsUserIsTyping: _freeSearchTextAsUserIsTyping,
+          icon: Icon(Icons.mail_sharp, size: 20),
+          selectedItemCallback: (selected) => setState(() => _currentSearch = selected)),
+    );
+  }
 }
+//
