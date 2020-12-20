@@ -5,8 +5,16 @@ import 'package:xoverlay/xwidgets/x-fad.dart';
 import 'package:xoverlay/xwidgets/x-overlay.dart';
 import 'package:xoverlay/xwidgets/x-search-dropdown.dart';
 
+typedef void SearchCallback(searchText);
+
 class SearchOptionsScreen extends StatefulWidget {
-  SearchOptionsScreen({Key key}) : super(key: key);
+  final String currentSearch;
+  final SearchCallback searchCallback;
+  SearchOptionsScreen({
+    @required this.currentSearch,
+    @required this.searchCallback,
+    Key key,
+  }) : super(key: key);
 
   @override
   _SearchOptionsScreenState createState() => _SearchOptionsScreenState();
@@ -24,15 +32,16 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
   final _searchFocus = FocusNode();
 
   String _fromValue = '';
+  String _hasWords = '';
 
   _SearchOptionsScreenState();
 
   @override
   Widget build(BuildContext context) => _searchOptionContainer(context: context, fields: <Widget>[
+        _hasWordsField(),
         _fromField(),
         _toField(),
         _subjectField(),
-        _hasWordsField(),
         SizedBox(height: 15),
         _searchAndCloseButton(),
       ]);
@@ -48,7 +57,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
               child: ListView(
                 children: fields
                     .map((e) => Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                          margin: EdgeInsets.fromLTRB(2, 0, 2, 15),
                           child: e,
                         ))
                     .toList(),
@@ -73,7 +82,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
                 child: XFAD(
                   onEscCallback: () => XOverlayHideNotification()..dispatch(context),
                   onTabCallback: () => _closeFocus.requestFocus(),
-                  onShiftTabCallback: () => _hasTheWordsFocus.requestFocus(),
+                  onShiftTabCallback: () => _subjectFocus.requestFocus(),
                   child: SizedBox(
                     height: 40,
                     child: RaisedButton(
@@ -90,7 +99,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
                 width: 90,
                 child: XFAD(
                   onEscCallback: () => XOverlayHideNotification()..dispatch(context),
-                  onTabCallback: () => _fromFocus.requestFocus(),
+                  onTabCallback: () => _hasTheWordsFocus.requestFocus(),
                   onShiftTabCallback: () => _searchFocus.requestFocus(),
                   child: SizedBox(
                     height: 40,
@@ -110,17 +119,38 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
 
   void _search() {
     _formKey.currentState.save();
+    widget.searchCallback(_hasWords);
     XOverlayHideNotification()..dispatch(context);
   }
+
+  Widget _hasWordsField() => XFAD(
+        onEscCallback: () => XOverlayHideNotification()..dispatch(context),
+        onTabCallback: () => _fromFocus.requestFocus(),
+        onShiftTabCallback: () => _closeFocus.requestFocus(),
+        child: TextFormField(
+          autofocus: true,
+          focusNode: _hasTheWordsFocus,
+          keyboardType: TextInputType.text,
+          maxLength: 50,
+          maxLines: 1,
+          minLines: 1,
+          decoration: InputDecoration(labelText: 'Has Words', counterText: ''),
+          initialValue: widget.currentSearch,
+          onSaved: (value) => _hasWords = value,
+          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (_) => _search(),
+        ),
+      );
 
   Widget _fromField() => XSearchDropdown(
         xSearchDropdownController: _fromXDropdownController,
         searchTextFocusNode: _fromFocus,
-        onShiftTabCallback: () => _closeFocus.requestFocus(),
+        onShiftTabCallback: () => _hasTheWordsFocus.requestFocus(),
         onTabCallback: () => _toFocus.requestFocus(),
-        searchCallbackFunc: (freeSearchTextAsUserIsTyping) => setState(() {
+        searchCallback: (freeSearchTextAsUserIsTyping) => setState(() {
           _fromValue = freeSearchTextAsUserIsTyping;
         }),
+        onSubmitted: (value) => _search(),
         searchListInOverlay: RandomList(
           freeSearchTextAsUserIsTyping: _fromValue,
           icon: Icon(Icons.person),
@@ -138,7 +168,6 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
         onEscCallback: () => XOverlayHideNotification()..dispatch(context),
         onTabCallback: () => _subjectFocus.requestFocus(),
         onShiftTabCallback: () => _fromFocus.requestFocus(),
-        onEnterCallback: () => this._search(),
         child: TextFormField(
           autofocus: true,
           focusNode: _toFocus,
@@ -148,16 +177,16 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
           minLines: 1,
           decoration: InputDecoration(labelText: 'To', counterText: ''),
           initialValue: '',
-          onSaved: (value) => print('not saving it for demo'),
+          onSaved: (value) => print('no impl'),
           textInputAction: TextInputAction.next,
+          onFieldSubmitted: (_) => _search(),
         ),
       );
 
   Widget _subjectField() => XFAD(
         onEscCallback: () => XOverlayHideNotification()..dispatch(context),
-        onTabCallback: () => _hasTheWordsFocus.requestFocus(),
+        onTabCallback: () => _searchFocus.requestFocus(),
         onShiftTabCallback: () => _toFocus.requestFocus(),
-        onEnterCallback: () => this._search(),
         child: TextFormField(
           autofocus: true,
           focusNode: _subjectFocus,
@@ -167,27 +196,9 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
           minLines: 1,
           decoration: InputDecoration(labelText: 'Subject', counterText: ''),
           initialValue: '',
-          onSaved: (value) => print('not saving it for demo'),
+          onSaved: (value) => print('no impl'),
           textInputAction: TextInputAction.next,
-        ),
-      );
-
-  Widget _hasWordsField() => XFAD(
-        onEscCallback: () => XOverlayHideNotification()..dispatch(context),
-        onTabCallback: () => _searchFocus.requestFocus(),
-        onShiftTabCallback: () => _subjectFocus.requestFocus(),
-        onEnterCallback: () => this._search(),
-        child: TextFormField(
-          autofocus: true,
-          focusNode: _hasTheWordsFocus,
-          keyboardType: TextInputType.text,
-          maxLength: 50,
-          maxLines: 1,
-          minLines: 1,
-          decoration: InputDecoration(labelText: 'Has Words', counterText: ''),
-          initialValue: '',
-          onSaved: (value) => print('not saving it for demo'),
-          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (_) => _search(),
         ),
       );
 

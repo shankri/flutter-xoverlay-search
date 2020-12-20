@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xoverlay/xwidgets/x-fad.dart';
 import 'package:xoverlay/xwidgets/x-overlay.dart';
-import 'package:xoverlay/xwidgets/hover_extension.dart';
 
 typedef void SearchCallback(freeSearchTextAsUserIsTyping);
 typedef String InitialValueCallback();
@@ -15,18 +14,20 @@ class XSearchDropdown extends StatefulWidget {
   final XSearchDropdownController xSearchDropdownController;
   final Function onShiftTabCallback;
   final Function onTabCallback;
-  final SearchCallback searchCallbackFunc;
+  final SearchCallback searchCallback;
   final InitialValueCallback initialValueCallback;
+  final ValueChanged<String> onSubmitted;
 
   const XSearchDropdown({
     @required this.labelText,
     @required this.initialValueCallback,
-    @required this.searchCallbackFunc,
+    @required this.searchCallback,
     @required this.searchListInOverlay,
     @required this.onTabCallback,
     @required this.onShiftTabCallback,
     @required this.searchTextFocusNode,
     @required this.xSearchDropdownController,
+    @required this.onSubmitted,
     this.autoFocus: false,
     Key key,
   }) : super(key: key);
@@ -78,7 +79,7 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
   void _searchTextEditingControllerListener() => _textEditingController.addListener(() {
         if (_currentSearchVal != _textEditingController.text) {
           _currentSearchVal = _textEditingController.text;
-          widget.searchCallbackFunc(_textEditingController.text);
+          widget.searchCallback(_textEditingController.text);
         }
 
         _showSearchOverlay = widget.searchTextFocusNode.hasFocus && _textEditingController.text.isNotEmpty;
@@ -117,7 +118,7 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
                 _showSearchOverlay = !_showSearchOverlay;
                 if (!_initialLoadStatus) {
                   _initialLoadStatus = true;
-                  widget.searchCallbackFunc(_textEditingController.text);
+                  widget.searchCallback(_textEditingController.text);
                 }
               }),
             ),
@@ -145,6 +146,7 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
             controller: _textEditingController,
             style: const TextStyle(fontWeight: FontWeight.normal),
             decoration: InputDecoration(labelText: widget.labelText, counterText: ''),
+            onSubmitted: (val) => widget.onSubmitted(val),
           ),
         ),
       );

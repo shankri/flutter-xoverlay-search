@@ -18,7 +18,7 @@ class XFAD extends StatelessWidget {
     this.onEnterCallback,
     this.onHoverCallback,
     Key key,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => FocusableActionDetector(
@@ -36,6 +36,8 @@ class XFAD extends StatelessWidget {
       };
 
   void _actionHandler(_XIntent intent) {
+    print(intent.type);
+    print(this.onEnterCallback);
     switch (intent.type) {
       case _XIntentType.Esc:
         if (onEscCallback != null) onEscCallback();
@@ -47,7 +49,7 @@ class XFAD extends StatelessWidget {
         if (onShiftTabCallback != null) onShiftTabCallback();
         break;
       case _XIntentType.Enter:
-        if (onEnterCallback != null) onEnterCallback();
+        if (this.onEnterCallback != null) onEnterCallback();
         break;
     }
   }

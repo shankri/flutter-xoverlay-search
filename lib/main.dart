@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xoverlay/random_list.dart';
 import 'package:xoverlay/search_options.dart';
+import 'package:xoverlay/xwidgets/x-overlay.dart';
 import 'package:xoverlay/xwidgets/x-search-textbox.dart';
 
 void main() => runApp(MyApp());
@@ -26,7 +27,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _freeSearchTextAsUserIsTyping = '';
+  String _searchTextAsUserIsTyping = '';
   String _currentSearch = '';
 
   @override
@@ -43,16 +44,27 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _searchTextbox() {
     return XSearchTextbox(
       key: Key(_currentSearch),
-      searchOptionsInOverlay: SearchOptionsScreen(),
-      suggestCallbackFunc: (freeSearchTextAsUserIsTyping) => setState(() => this._freeSearchTextAsUserIsTyping = freeSearchTextAsUserIsTyping),
+      searchOptionsInOverlay: SearchOptionsScreen(
+          key: Key(_searchTextAsUserIsTyping),
+          currentSearch: _searchTextAsUserIsTyping,
+          searchCallback: (freeSearchValue) => setState(() {
+                _currentSearch = freeSearchValue;
+                _searchTextAsUserIsTyping = _currentSearch;
+              })),
+      suggestCallbackFunc: (freeSearchTextAsUserIsTyping) => setState(() => this._searchTextAsUserIsTyping = freeSearchTextAsUserIsTyping),
       searchHintText: 'Search words',
       initialvalue: _currentSearch,
-      searchFunc: (freeSearchValue) => setState(() => _currentSearch = freeSearchValue),
+      searchCallback: (freeSearchValue) => setState(() {
+        _currentSearch = freeSearchValue;
+        _searchTextAsUserIsTyping = _currentSearch;
+      }),
       suggestListInOverlay: RandomList(
-          //key: Key(_freeSearchTextAsUserIsTyping),
-          freeSearchTextAsUserIsTyping: _freeSearchTextAsUserIsTyping,
+          freeSearchTextAsUserIsTyping: _searchTextAsUserIsTyping,
           icon: Icon(Icons.mail_sharp, size: 20),
-          selectedItemCallback: (selected) => setState(() => _currentSearch = selected)),
+          selectedItemCallback: (selected) => setState(() {
+                _currentSearch = selected;
+                _searchTextAsUserIsTyping = _currentSearch;
+              })),
     );
   }
 }

@@ -12,7 +12,7 @@ import 'package:xoverlay/xwidgets/hover_extension.dart';
 ///Uses overlay widget to show suggestions and other options as overlay
 
 ///search callback function (to refresh the actual search list)
-typedef void Search(freeSearchText);
+typedef void SearchCallback(freeSearchText);
 
 ///this is for suggestion
 typedef void SuggestCallback(freeSearchTextAsUserIsTyping);
@@ -21,7 +21,7 @@ class XSearchTextbox extends StatefulWidget {
   final String searchHintText;
   final String initialvalue;
   final String filterName;
-  final Search searchFunc;
+  final SearchCallback searchCallback;
   final SuggestCallback suggestCallbackFunc;
   final Widget suggestListInOverlay;
   final Widget searchOptionsInOverlay;
@@ -30,7 +30,7 @@ class XSearchTextbox extends StatefulWidget {
   const XSearchTextbox({
     @required this.searchHintText,
     @required this.initialvalue,
-    @required this.searchFunc,
+    @required this.searchCallback,
     @required this.suggestCallbackFunc,
     @required this.suggestListInOverlay,
     this.searchOptionsInOverlay,
@@ -159,7 +159,7 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
 
     ///should always be false when exiting out as it should be collapsed between routes
     _showSuggestOverlay = false;
-    this.widget.searchFunc(toSearch);
+    this.widget.searchCallback(toSearch);
   }
 
   Widget _searchIcon() => Tooltip(

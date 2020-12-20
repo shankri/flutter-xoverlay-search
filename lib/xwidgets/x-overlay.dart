@@ -183,8 +183,8 @@ class _XOverlayState extends State<XOverlay> {
         child: GestureDetector(
           onTap: () => _hideOverlay(true),
           child: Container(
-            //color: Colors.red,
-            color: Colors.transparent,
+            color: Colors.greenAccent,
+            //color: Colors.transparent,
           ),
         ),
       );
