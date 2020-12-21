@@ -9,7 +9,6 @@ class RandomList extends StatefulWidget {
   final SelectedItemCallback selectedItemCallback;
   final String freeSearchTextAsUserIsTyping;
   final Icon icon;
-
   const RandomList({
     @required this.freeSearchTextAsUserIsTyping,
     @required this.icon,
@@ -34,38 +33,36 @@ class _RandomListState extends State<RandomList> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      padding: EdgeInsets.all(0),
-      itemCount: _dummyList.length > 5 ? 5 : _dummyList.length,
-      itemBuilder: (context, index) {
-        return _xfad(
-          index: index,
-          child: Container(
-            decoration: BoxDecoration(
-                color: _hovering && _selectedIndex == index ? const Color.fromRGBO(220, 220, 220, 0.6) : Colors.transparent,
-                border: Border(
-                  top: BorderSide(color: const Color.fromRGBO(220, 220, 220, 0.6)),
-                  bottom: BorderSide(color: const Color.fromRGBO(220, 220, 220, 0.6)),
-                  left: BorderSide(
-                    color: _hovering && _selectedIndex == index ? Theme.of(context).primaryColor : Colors.transparent,
-                    width: 3,
-                  ),
-                )),
-            child: ListTile(
-              hoverColor: Colors.transparent,
-              leading: widget.icon,
-              title: Text('${_dummyList[index].first} - ${_dummyList[index].second}'),
-              onTap: () {
-                if (widget.selectedItemCallback != null) widget.selectedItemCallback('${_dummyList[index].first} - ${_dummyList[index].second}');
-              },
-            ),
-          ).xShowPointerOnHover,
-        );
-      },
-    );
-  }
+  Widget build(BuildContext context) => ListView.builder(
+        shrinkWrap: true,
+        padding: EdgeInsets.all(0),
+        itemCount: _dummyList.length > 5 ? 5 : _dummyList.length,
+        itemBuilder: (context, index) {
+          return _xfad(
+            index: index,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: _hovering && _selectedIndex == index ? const Color.fromRGBO(220, 220, 220, 0.6) : Colors.transparent,
+                  border: Border(
+                    top: BorderSide(color: const Color.fromRGBO(220, 220, 220, 0.6)),
+                    bottom: BorderSide(color: const Color.fromRGBO(220, 220, 220, 0.6)),
+                    left: BorderSide(
+                      color: _hovering && _selectedIndex == index ? Theme.of(context).primaryColor : Colors.transparent,
+                      width: 3,
+                    ),
+                  )),
+              child: ListTile(
+                hoverColor: Colors.transparent,
+                leading: widget.icon,
+                title: Text('${_dummyList[index].first} - ${_dummyList[index].second}'),
+                onTap: () {
+                  if (widget.selectedItemCallback != null) widget.selectedItemCallback('${_dummyList[index].first} - ${_dummyList[index].second}');
+                },
+              ),
+            ).xShowPointerOnHover,
+          );
+        },
+      );
 
   Widget _xfad({@required Widget child, @required int index}) => XFAD(
         onHoverCallback: (bool value) => setState(() {

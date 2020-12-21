@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:xoverlay/xwidgets/x-fad.dart';
 
 ///Overlay widget that be parent of any widget to show overlay content
 ///This is a genetic implementation refer x-search-textbox for an example
@@ -42,9 +41,12 @@ class XOverlayStack {
   void _push(XOverlayController x) => _stack.add(x);
 
   void hideAll() {
-    if (_stack.length > 0) {
-      _stack.forEach((element) => element.hideOverlay(false));
-    }
+    if (_stack.length > 0) _stack.forEach((element) => element.hideOverlay(false));
+  }
+
+  ///first visible from last
+  void hideFirstVisible() {
+    if (_stack.length > 0) _stack.reversed.firstWhere((element) => element.isVisible())?.hideOverlay(false);
   }
 
   void _remove(XOverlayController x) {
@@ -65,7 +67,7 @@ class XOverlayController {
 
   void hideOverlay(removeFocus) => _xOverlayState._hideOverlay(removeFocus);
   void showOverlay(String widgetId) => _xOverlayState._showOverlay(widgetId);
-
+  bool isVisible() => _xOverlayState.isVisible;
   void dispose() => XOverlayStack()._remove(this);
 }
 
@@ -73,18 +75,16 @@ class _XOverlayState extends State<XOverlay> {
   GlobalKey _globalKeyParent = GlobalKey();
   OverlayEntry _overlayEntry;
   final LayerLink _layerLink = LayerLink();
+  bool isVisible = false;
 
   _XOverlayState();
 
   @override
   Widget build(BuildContext context) => CompositedTransformTarget(
         link: this._layerLink,
-        child: XFAD(
-          onEscCallback: () => _hideOverlay(true),
-          child: Container(
-            key: _globalKeyParent,
-            child: widget.child,
-          ),
+        child: Container(
+          key: _globalKeyParent,
+          child: widget.child,
         ),
       );
 
@@ -132,6 +132,7 @@ class _XOverlayState extends State<XOverlay> {
 
     _overlayEntry = _overlay(widgetId);
     Overlay.of(context).insert(_overlayEntry);
+    isVisible = true;
   }
 
   ///hide overlay
@@ -140,6 +141,7 @@ class _XOverlayState extends State<XOverlay> {
     _overlayEntry = null;
     widget.onHideOverlayFunc();
     if (removeFocus) WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+    isVisible = false;
   }
 
   ///start: glass panel

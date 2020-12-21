@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:xoverlay/xwidgets/x-fad.dart';
 import 'package:xoverlay/xwidgets/x-overlay.dart';
 
 typedef void SearchCallback(freeSearchTextAsUserIsTyping);
@@ -12,8 +11,6 @@ class XSearchDropdown extends StatefulWidget {
   final bool autoFocus;
   final FocusNode searchTextFocusNode;
   final XSearchDropdownController xSearchDropdownController;
-  final Function onShiftTabCallback;
-  final Function onTabCallback;
   final SearchCallback searchCallback;
   final InitialValueCallback initialValueCallback;
   final ValueChanged<String> onSubmitted;
@@ -23,8 +20,6 @@ class XSearchDropdown extends StatefulWidget {
     @required this.initialValueCallback,
     @required this.searchCallback,
     @required this.searchListInOverlay,
-    @required this.onTabCallback,
-    @required this.onShiftTabCallback,
     @required this.searchTextFocusNode,
     @required this.xSearchDropdownController,
     @required this.onSubmitted,
@@ -129,23 +124,15 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
   ///container top margin is for a glitch in web
   Widget _searchTextfield() => Container(
         margin: EdgeInsets.fromLTRB(0, kIsWeb ? 1 : 0, 0, 0),
-        child: XFAD(
-          onEscCallback: () {
-            _xOverlayController.hideOverlay(true);
-            XOverlayStack().hideAll();
-          },
-          onTabCallback: () => widget.onTabCallback(),
-          onShiftTabCallback: () => widget.onShiftTabCallback(),
-          child: TextField(
-            autofocus: widget.autoFocus,
-            cursorColor: Color.fromRGBO(155, 155, 155, 1),
-            showCursor: true,
-            focusNode: widget.searchTextFocusNode,
-            controller: _textEditingController,
-            style: const TextStyle(fontWeight: FontWeight.normal),
-            decoration: InputDecoration(labelText: widget.labelText, counterText: ''),
-            onSubmitted: (val) => widget.onSubmitted(val),
-          ),
+        child: TextField(
+          autofocus: widget.autoFocus,
+          cursorColor: Color.fromRGBO(155, 155, 155, 1),
+          showCursor: true,
+          focusNode: widget.searchTextFocusNode,
+          controller: _textEditingController,
+          style: const TextStyle(fontWeight: FontWeight.normal),
+          decoration: InputDecoration(labelText: widget.labelText, counterText: ''),
+          onSubmitted: (val) => widget.onSubmitted(val),
         ),
       );
 

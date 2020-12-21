@@ -47,7 +47,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
       ]);
 
   Widget _searchOptionContainer({context, List<Widget> fields}) => XFAD(
-        onEscCallback: () => XOverlayStack().hideAll(),
+        onEscCallback: () => XOverlayStack().hideFirstVisible(),
         child: Form(
           key: _formKey,
           child: Scrollbar(
@@ -80,7 +80,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
               SizedBox(
                 width: 90,
                 child: XFAD(
-                  onEscCallback: () => XOverlayStack().hideAll(),
+                  onEscCallback: () => XOverlayStack().hideFirstVisible(),
                   onTabCallback: () => _closeFocus.requestFocus(),
                   onShiftTabCallback: () => _subjectFocus.requestFocus(),
                   child: SizedBox(
@@ -98,7 +98,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
               SizedBox(
                 width: 90,
                 child: XFAD(
-                  onEscCallback: () => XOverlayStack().hideAll(),
+                  onEscCallback: () => XOverlayStack().hideFirstVisible(),
                   onTabCallback: () => _hasTheWordsFocus.requestFocus(),
                   onShiftTabCallback: () => _searchFocus.requestFocus(),
                   child: SizedBox(
@@ -107,7 +107,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
                       color: Colors.grey[600],
                       child: Text('Close', style: TextStyle(color: Colors.white)),
                       focusNode: _closeFocus,
-                      onPressed: () => XOverlayStack().hideAll(),
+                      onPressed: () => XOverlayStack().hideFirstVisible(),
                     ),
                   ),
                 ),
@@ -123,7 +123,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
   }
 
   Widget _hasWordsField() => XFAD(
-        onEscCallback: () => XOverlayStack().hideAll(),
+        onEscCallback: () => XOverlayStack().hideFirstVisible(),
         onTabCallback: () => _fromFocus.requestFocus(),
         onShiftTabCallback: () => _closeFocus.requestFocus(),
         child: TextFormField(
@@ -141,30 +141,33 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
         ),
       );
 
-  Widget _fromField() => XSearchDropdown(
-        xSearchDropdownController: _fromXDropdownController,
-        searchTextFocusNode: _fromFocus,
+  Widget _fromField() => XFAD(
+        onEscCallback: () => XOverlayStack().hideFirstVisible(),
         onShiftTabCallback: () => _hasTheWordsFocus.requestFocus(),
         onTabCallback: () => _toFocus.requestFocus(),
-        searchCallback: (freeSearchTextAsUserIsTyping) => setState(() {
-          _fromValue = freeSearchTextAsUserIsTyping;
-        }),
-        onSubmitted: (value) => _search(),
-        searchListInOverlay: RandomList(
-          freeSearchTextAsUserIsTyping: _fromValue,
-          icon: Icon(Icons.person),
-          selectedItemCallback: (val) => setState(() {
-            _fromValue = val;
-            _fromXDropdownController.setText(text: _fromValue, hide: true);
+        child: XSearchDropdown(
+          xSearchDropdownController: _fromXDropdownController,
+          searchTextFocusNode: _fromFocus,
+          searchCallback: (freeSearchTextAsUserIsTyping) => setState(() {
+            _fromValue = freeSearchTextAsUserIsTyping;
           }),
+          onSubmitted: (value) => _search(),
+          searchListInOverlay: RandomList(
+            freeSearchTextAsUserIsTyping: _fromValue,
+            icon: Icon(Icons.person),
+            selectedItemCallback: (val) => setState(() {
+              _fromValue = val;
+              _fromXDropdownController.setText(text: _fromValue, hide: true);
+            }),
+          ),
+          labelText: 'From',
+          initialValueCallback: () => _fromValue,
+          autoFocus: true,
         ),
-        labelText: 'From',
-        initialValueCallback: () => _fromValue,
-        autoFocus: true,
       );
 
   Widget _toField() => XFAD(
-        onEscCallback: () => XOverlayStack().hideAll(),
+        onEscCallback: () => XOverlayStack().hideFirstVisible(),
         onTabCallback: () => _subjectFocus.requestFocus(),
         onShiftTabCallback: () => _fromFocus.requestFocus(),
         child: TextFormField(
@@ -182,7 +185,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
       );
 
   Widget _subjectField() => XFAD(
-        onEscCallback: () => XOverlayStack().hideAll(),
+        onEscCallback: () => XOverlayStack().hideFirstVisible(),
         onTabCallback: () => _searchFocus.requestFocus(),
         onShiftTabCallback: () => _toFocus.requestFocus(),
         child: TextFormField(
