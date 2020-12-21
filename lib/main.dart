@@ -36,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(
             title: _searchTextbox(),
             toolbarHeight: 75,
+            elevation: 0,
           ),
           body: Center(child: Text(_currentSearch)),
         ),

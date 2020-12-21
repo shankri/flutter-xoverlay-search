@@ -175,7 +175,6 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
   Widget _searchTextfield() => Container(
         margin: EdgeInsets.fromLTRB(0, kIsWeb ? 1 : 0, 0, 0),
         child: TextField(
-          autofocus: false,
           cursorColor: Color.fromRGBO(155, 155, 155, 1),
           showCursor: true,
           focusNode: _searchTextFocusNode,

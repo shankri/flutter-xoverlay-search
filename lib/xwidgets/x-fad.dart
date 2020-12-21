@@ -7,6 +7,8 @@ class XFAD extends StatelessWidget {
   final Function onTabCallback;
   final Function onShiftTabCallback;
   final Function onEnterCallback;
+  final Function onArrowUpCallback;
+  final Function onArrowDownCallback;
   final ValueChanged<bool> onHoverCallback;
   final Widget child;
 
@@ -17,6 +19,8 @@ class XFAD extends StatelessWidget {
     this.onShiftTabCallback,
     this.onEnterCallback,
     this.onHoverCallback,
+    this.onArrowUpCallback,
+    this.onArrowDownCallback,
     Key key,
   }) : super(key: key);
 
@@ -33,6 +37,8 @@ class XFAD extends StatelessWidget {
         LogicalKeySet(LogicalKeyboardKey.tab): _XIntent.tab(),
         LogicalKeySet.fromSet({LogicalKeyboardKey.tab, LogicalKeyboardKey.shift}): _XIntent.shiftTab(),
         LogicalKeySet(LogicalKeyboardKey.enter): _XIntent.enter(),
+        LogicalKeySet(LogicalKeyboardKey.arrowUp): _XIntent.arrowUp(),
+        LogicalKeySet(LogicalKeyboardKey.arrowDown): _XIntent.arrowDown(),
       };
 
   void _actionHandler(_XIntent intent) {
@@ -48,6 +54,12 @@ class XFAD extends StatelessWidget {
         break;
       case _XIntentType.Enter:
         if (this.onEnterCallback != null) onEnterCallback();
+        break;
+      case _XIntentType.ArrowUp:
+        if (this.onArrowUpCallback != null) onArrowUpCallback();
+        break;
+      case _XIntentType.ArrowDown:
+        if (this.onArrowDownCallback != null) onArrowDownCallback();
         break;
     }
   }
@@ -67,6 +79,8 @@ class _XIntent extends Intent {
   const _XIntent.tab() : type = _XIntentType.Tab;
   const _XIntent.shiftTab() : type = _XIntentType.ShifTab;
   const _XIntent.enter() : type = _XIntentType.Enter;
+  const _XIntent.arrowUp() : type = _XIntentType.ArrowUp;
+  const _XIntent.arrowDown() : type = _XIntentType.ArrowDown;
 }
 
 enum _XIntentType {
@@ -74,4 +88,6 @@ enum _XIntentType {
   Tab,
   ShifTab,
   Enter,
+  ArrowUp,
+  ArrowDown,
 }

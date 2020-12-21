@@ -43,12 +43,12 @@ class XOverlayStack {
 
   void hideAll() {
     if (_stack.length > 0) {
-      _stack.forEach((element) => element.hideOverlay(true));
+      _stack.forEach((element) => element.hideOverlay(false));
     }
   }
 
   void _remove(XOverlayController x) {
-    x.hideOverlay(true);
+    x.hideOverlay(false);
     _stack.remove(x);
   }
 

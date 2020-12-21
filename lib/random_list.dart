@@ -40,11 +40,8 @@ class _RandomListState extends State<RandomList> {
       padding: EdgeInsets.all(0),
       itemCount: _dummyList.length > 5 ? 5 : _dummyList.length,
       itemBuilder: (context, index) {
-        return XFAD(
-          onHoverCallback: (bool value) => setState(() {
-            _hovering = value;
-            _selectedIndex = index;
-          }),
+        return _xfad(
+          index: index,
           child: Container(
             decoration: BoxDecoration(
                 color: _hovering && _selectedIndex == index ? const Color.fromRGBO(220, 220, 220, 0.6) : Colors.transparent,
@@ -69,4 +66,12 @@ class _RandomListState extends State<RandomList> {
       },
     );
   }
+
+  Widget _xfad({@required Widget child, @required int index}) => XFAD(
+        onHoverCallback: (bool value) => setState(() {
+          _hovering = value;
+          _selectedIndex = index;
+        }),
+        child: child,
+      );
 }
