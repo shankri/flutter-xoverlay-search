@@ -28,19 +28,45 @@ class XOverlay extends StatefulWidget {
   }
 }
 
+///xoverlay stack ... handle on multiple overlays as stack
+class XOverlayStack {
+  static final XOverlayStack _instance = XOverlayStack._init();
+  final List<XOverlayController> _stack = [];
+
+  factory XOverlayStack() {
+    return _instance;
+  }
+
+  XOverlayStack._init();
+
+  void _push(XOverlayController x) => _stack.add(x);
+
+  void hideAll() {
+    if (_stack.length > 0) {
+      _stack.forEach((element) => element.hideOverlay(true));
+    }
+  }
+
+  void _remove(XOverlayController x) {
+    x.hideOverlay(true);
+    _stack.remove(x);
+  }
+
+  XOverlayController peek() => _stack.length > 0 ? _stack.last : null;
+}
+
 ///controller to provider handle to the parent on when to show and hide overlay widget
 class XOverlayController {
   _XOverlayState _xOverlayState;
 
-  XOverlayController();
+  XOverlayController() {
+    XOverlayStack()._push(this);
+  }
 
   void hideOverlay(removeFocus) => _xOverlayState._hideOverlay(removeFocus);
   void showOverlay(String widgetId) => _xOverlayState._showOverlay(widgetId);
-}
 
-///notification to hide
-class XOverlayHideNotification extends Notification {
-  const XOverlayHideNotification();
+  void dispose() => XOverlayStack()._remove(this);
 }
 
 class _XOverlayState extends State<XOverlay> {
@@ -65,21 +91,15 @@ class _XOverlayState extends State<XOverlay> {
   ///overlay with glass pane + actual body
   OverlayEntry _overlay(String widgetId) => OverlayEntry(
         builder: (context) => _globalKeyParent.currentContext != null
-            ? NotificationListener<XOverlayHideNotification>(
-                onNotification: (xOverlayHideNotification) {
-                  _hideOverlay(true);
-                  return true;
-                },
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    _glassPanelLeft(),
-                    _glassPanelBottom(),
-                    _glassPanelRight(),
-                    _glassPanelTop(),
-                    _overlayBody(widgetId),
-                  ],
-                ),
+            ? Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  _glassPanelLeft(),
+                  _glassPanelBottom(),
+                  _glassPanelRight(),
+                  _glassPanelTop(),
+                  _overlayBody(widgetId),
+                ],
               )
             : Container(),
       );
@@ -183,8 +203,8 @@ class _XOverlayState extends State<XOverlay> {
         child: GestureDetector(
           onTap: () => _hideOverlay(true),
           child: Container(
-            color: Colors.greenAccent,
-            //color: Colors.transparent,
+            //color: Colors.greenAccent,
+            color: Colors.transparent,
           ),
         ),
       );

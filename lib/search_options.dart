@@ -47,7 +47,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
       ]);
 
   Widget _searchOptionContainer({context, List<Widget> fields}) => XFAD(
-        onEscCallback: () => XOverlayHideNotification()..dispatch(context),
+        onEscCallback: () => XOverlayStack().hideAll(),
         child: Form(
           key: _formKey,
           child: Scrollbar(
@@ -80,7 +80,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
               SizedBox(
                 width: 90,
                 child: XFAD(
-                  onEscCallback: () => XOverlayHideNotification()..dispatch(context),
+                  onEscCallback: () => XOverlayStack().hideAll(),
                   onTabCallback: () => _closeFocus.requestFocus(),
                   onShiftTabCallback: () => _subjectFocus.requestFocus(),
                   child: SizedBox(
@@ -98,7 +98,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
               SizedBox(
                 width: 90,
                 child: XFAD(
-                  onEscCallback: () => XOverlayHideNotification()..dispatch(context),
+                  onEscCallback: () => XOverlayStack().hideAll(),
                   onTabCallback: () => _hasTheWordsFocus.requestFocus(),
                   onShiftTabCallback: () => _searchFocus.requestFocus(),
                   child: SizedBox(
@@ -107,7 +107,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
                       color: Colors.grey[600],
                       child: Text('Close', style: TextStyle(color: Colors.white)),
                       focusNode: _closeFocus,
-                      onPressed: () => XOverlayHideNotification()..dispatch(context),
+                      onPressed: () => XOverlayStack().hideAll(),
                     ),
                   ),
                 ),
@@ -120,11 +120,10 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
   void _search() {
     _formKey.currentState.save();
     widget.searchCallback(_hasWords);
-    XOverlayHideNotification()..dispatch(context);
   }
 
   Widget _hasWordsField() => XFAD(
-        onEscCallback: () => XOverlayHideNotification()..dispatch(context),
+        onEscCallback: () => XOverlayStack().hideAll(),
         onTabCallback: () => _fromFocus.requestFocus(),
         onShiftTabCallback: () => _closeFocus.requestFocus(),
         child: TextFormField(
@@ -165,7 +164,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
       );
 
   Widget _toField() => XFAD(
-        onEscCallback: () => XOverlayHideNotification()..dispatch(context),
+        onEscCallback: () => XOverlayStack().hideAll(),
         onTabCallback: () => _subjectFocus.requestFocus(),
         onShiftTabCallback: () => _fromFocus.requestFocus(),
         child: TextFormField(
@@ -177,14 +176,13 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
           minLines: 1,
           decoration: InputDecoration(labelText: 'To', counterText: ''),
           initialValue: '',
-          onSaved: (value) => print('no impl'),
           textInputAction: TextInputAction.next,
           onFieldSubmitted: (_) => _search(),
         ),
       );
 
   Widget _subjectField() => XFAD(
-        onEscCallback: () => XOverlayHideNotification()..dispatch(context),
+        onEscCallback: () => XOverlayStack().hideAll(),
         onTabCallback: () => _searchFocus.requestFocus(),
         onShiftTabCallback: () => _toFocus.requestFocus(),
         child: TextFormField(
@@ -196,7 +194,6 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
           minLines: 1,
           decoration: InputDecoration(labelText: 'Subject', counterText: ''),
           initialValue: '',
-          onSaved: (value) => print('no impl'),
           textInputAction: TextInputAction.next,
           onFieldSubmitted: (_) => _search(),
         ),

@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
           key: Key(_searchTextAsUserIsTyping),
           currentSearch: _searchTextAsUserIsTyping,
           searchCallback: (freeSearchValue) => setState(() {
+                XOverlayStack().hideAll();
                 _currentSearch = freeSearchValue;
                 _searchTextAsUserIsTyping = _currentSearch;
               })),
@@ -62,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           freeSearchTextAsUserIsTyping: _searchTextAsUserIsTyping,
           icon: Icon(Icons.mail_sharp, size: 20),
           selectedItemCallback: (selected) => setState(() {
+                XOverlayStack().hideAll();
                 _currentSearch = selected;
                 _searchTextAsUserIsTyping = _currentSearch;
               })),

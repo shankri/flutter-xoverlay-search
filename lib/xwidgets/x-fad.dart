@@ -36,8 +36,6 @@ class XFAD extends StatelessWidget {
       };
 
   void _actionHandler(_XIntent intent) {
-    print(intent.type);
-    print(this.onEnterCallback);
     switch (intent.type) {
       case _XIntentType.Esc:
         if (onEscCallback != null) onEscCallback();

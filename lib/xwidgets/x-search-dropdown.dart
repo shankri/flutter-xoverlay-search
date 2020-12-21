@@ -100,9 +100,7 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
     _displayAppropriateOverlay();
 
     return XOverlay(
-      onHideOverlayFunc: () => setState(() {
-        _showSearchOverlay = false;
-      }),
+      onHideOverlayFunc: () => _showSearchOverlay = false,
       insideOverlayWidgetMap: {'list': widget.searchListInOverlay},
       xOverlayController: _xOverlayController,
       child: Container(
@@ -134,7 +132,7 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
         child: XFAD(
           onEscCallback: () {
             _xOverlayController.hideOverlay(true);
-            XOverlayHideNotification()..dispatch(context);
+            XOverlayStack().hideAll();
           },
           onTabCallback: () => widget.onTabCallback(),
           onShiftTabCallback: () => widget.onShiftTabCallback(),
@@ -155,5 +153,6 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
   void dispose() {
     super.dispose();
     _textEditingController.dispose();
+    _xOverlayController.dispose();
   }
 }
