@@ -154,7 +154,9 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     String toSearch = this._searchTextEditingController.text;
 
-    ///set initial value back it .. for routing contextr
+    ///set initial value back it .. for routing context
+    ///set to current value to avoid textcontroller listener listening to the change
+    _currentSearchVal = widget.initialvalue;
     this._searchTextEditingController.text = widget.initialvalue;
 
     ///should always be false when exiting out as it should be collapsed between routes

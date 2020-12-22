@@ -1,3 +1,4 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xoverlay/random_list.dart';
@@ -32,6 +33,8 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
   final _searchFocus = FocusNode();
 
   String _fromValue = '';
+  List<WordPair> _dataListForFrom;
+  int _fromListSelectedIndex = -1;
   String _hasWords = '';
 
   _SearchOptionsScreenState();
@@ -141,29 +144,64 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
         ),
       );
 
-  Widget _fromField() => XFAD(
+  Widget _fromField() {
+    return _keyboardSupportForFrom(
+      dataList: _dataListForFrom,
+      child: XSearchDropdown(
+        xSearchDropdownController: _fromXDropdownController,
+        searchTextFocusNode: _fromFocus,
+        searchCallback: (freeSearchTextAsUserIsTyping) => setState(() {
+          _fromValue = freeSearchTextAsUserIsTyping;
+          _fromListSelectedIndex = -1;
+          String srch = this._fromValue == null || this._fromValue == '' ? 'a' : this._fromValue.toLowerCase();
+          _dataListForFrom = generateWordPairs(maxSyllables: 10).take(1000).toList()..removeWhere((element) => element.first[0] != srch[srch.length - 1]);
+          _dataListForFrom = _dataListForFrom.length > 5 ? _dataListForFrom.sublist(0, 5) : _dataListForFrom;
+        }),
+        onSubmitted: (value) {
+          if (_fromListSelectedIndex < 0) {
+            _search();
+          } else {
+            setState(() {
+              _fromValue = '${_dataListForFrom[_fromListSelectedIndex].first} - ${_dataListForFrom[_fromListSelectedIndex].second}';
+              _fromXDropdownController.setText(text: _fromValue, hide: true);
+            });
+          }
+        },
+        searchListInOverlay: RandomList(
+          selectedIndex: _fromListSelectedIndex,
+          dataList: _dataListForFrom,
+          icon: Icon(Icons.person),
+          selectedItemCallback: (val) => setState(() {
+            _fromValue = val;
+            _fromXDropdownController.setText(text: _fromValue, hide: true);
+          }),
+        ),
+        labelText: 'From',
+        initialValueCallback: () => _fromValue,
+        autoFocus: true,
+      ),
+    );
+  }
+
+  Widget _keyboardSupportForFrom({@required Widget child, @required List<WordPair> dataList}) => XFAD(
         onEscCallback: () => XOverlayStack().hideFirstVisible(),
         onShiftTabCallback: () => _hasTheWordsFocus.requestFocus(),
         onTabCallback: () => _toFocus.requestFocus(),
-        child: XSearchDropdown(
-          xSearchDropdownController: _fromXDropdownController,
-          searchTextFocusNode: _fromFocus,
-          searchCallback: (freeSearchTextAsUserIsTyping) => setState(() {
-            _fromValue = freeSearchTextAsUserIsTyping;
-          }),
-          onSubmitted: (value) => _search(),
-          searchListInOverlay: RandomList(
-            freeSearchTextAsUserIsTyping: _fromValue,
-            icon: Icon(Icons.person),
-            selectedItemCallback: (val) => setState(() {
-              _fromValue = val;
-              _fromXDropdownController.setText(text: _fromValue, hide: true);
-            }),
-          ),
-          labelText: 'From',
-          initialValueCallback: () => _fromValue,
-          autoFocus: true,
-        ),
+        onArrowDownCallback: () {
+          if (dataList != null && dataList.length > 0) {
+            setState(() {
+              _fromListSelectedIndex = (_fromListSelectedIndex + 1 >= dataList.length) ? 0 : _fromListSelectedIndex + 1;
+            });
+          }
+        },
+        onArrowUpCallback: () {
+          if (dataList != null && dataList.length > 0) {
+            setState(() {
+              _fromListSelectedIndex = (_fromListSelectedIndex - 1 < 0) ? dataList.length - 1 : _fromListSelectedIndex - 1;
+            });
+          }
+        },
+        child: child,
       );
 
   Widget _toField() => XFAD(
