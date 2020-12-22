@@ -50,14 +50,14 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.grey[800],
             alignment: Alignment.center,
             height: 50,
-            child: Text('Search widget with Overlays', style: TextStyle(color: Colors.white70, fontSize: 15)),
+            child: Text('Search widget with Overlays', style: TextStyle(color: Colors.white70, fontSize: 16)),
           ),
           body: Container(
             color: Colors.grey[200],
             child: Center(
                 child: Text(
-              _currentSearch.isEmpty ? 'Start searching' : '"$_currentSearch"   results',
-              style: TextStyle(fontSize: Theme.of(context).textTheme.headline3.fontSize),
+              _currentSearch.isEmpty ? 'start searching...' : 'results for "$_currentSearch"',
+              style: TextStyle(fontSize: Theme.of(context).textTheme.headline3.fontSize, color: Colors.grey[600]),
             )),
           ),
         ),
@@ -66,14 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _mainBody() => _keyboardSupport(
         child: XSearchTextbox(
           key: Key(_currentSearch),
-          searchOptionsInOverlay: SearchOptionsScreen(
-              key: Key(_searchTextAsUserIsTyping),
-              currentSearch: _searchTextAsUserIsTyping,
-              searchCallback: (freeSearchValue) => setState(() {
-                    XOverlayStack().hideAll();
-                    _currentSearch = freeSearchValue;
-                    _searchTextAsUserIsTyping = _currentSearch;
-                  })),
+          searchOptionsInOverlay: _searchOptionsWidget(),
           suggestCallbackFunc: (freeSearchTextAsUserIsTyping) => setState(() {
             this._searchTextAsUserIsTyping = freeSearchTextAsUserIsTyping;
             String srch = this._searchTextAsUserIsTyping == null || this._searchTextAsUserIsTyping == '' ? 'a' : this._searchTextAsUserIsTyping.toLowerCase();
@@ -90,22 +83,40 @@ class _MyHomePageState extends State<MyHomePage> {
             _searchTextAsUserIsTyping = _currentSearch;
             _listSelectedIndex = -1;
           }),
-          suggestListInOverlay: RandomList(
-              selectedIndex: _listSelectedIndex,
-              dataList: _dataList,
-              icon: Icon(Icons.mail_sharp, size: 20),
-              selectedItemCallback: (selected) => setState(() {
-                    XOverlayStack().hideAll();
-                    _currentSearch = selected;
-                    _searchTextAsUserIsTyping = _currentSearch;
-                  })),
-          filterOptionsInOverlay: FilterOptions(
-            selectedFilterIndex: _selectedFilterIndex,
-            selectFilterCallback: (index) => setState(() => _selectedFilterIndex = index),
-          ),
+          suggestListInOverlay: _suggestListWdiget(),
+          filterOptionsInOverlay: _filterOptionsWidget(),
         ),
       );
 
+  ///suggest list widget
+  Widget _suggestListWdiget() => RandomList(
+      selectedIndex: _listSelectedIndex,
+      dataList: _dataList,
+      icon: Icon(Icons.mail_sharp, size: 20),
+      selectedItemCallback: (selected) => setState(() {
+            XOverlayStack().hideAll();
+            _currentSearch = selected;
+            _searchTextAsUserIsTyping = _currentSearch;
+          }));
+
+  ///widget that appears for search options as overlay
+  Widget _searchOptionsWidget() => SearchOptionsScreen(
+      key: Key(_searchTextAsUserIsTyping),
+      currentSearch: _searchTextAsUserIsTyping,
+      searchCallback: (freeSearchValue) => setState(() {
+            XOverlayStack().hideAll();
+            _currentSearch = freeSearchValue;
+            _searchTextAsUserIsTyping = _currentSearch;
+          }));
+
+  ///widget that appears for filter options as overlay
+  Widget _filterOptionsWidget() => FilterOptions(
+        selectedFilterIndex: _selectedFilterIndex,
+        selectFilterCallback: (index) => setState(() => _selectedFilterIndex = index),
+      );
+
+  ///escape: hide overlay
+  ///arrow up & arrow down: navigate through the list
   Widget _keyboardSupport({Widget child}) => XFAD(
         onEscCallback: () => XOverlayStack().hideFirstVisible(),
         onArrowDownCallback: () {
