@@ -177,6 +177,7 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
   Widget _searchTextfield() => Container(
         margin: EdgeInsets.fromLTRB(0, kIsWeb ? 1 : 0, 0, 0),
         child: TextField(
+          autofocus: false,
           cursorColor: Color.fromRGBO(155, 155, 155, 1),
           showCursor: true,
           focusNode: _searchTextFocusNode,
@@ -233,7 +234,7 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
   Widget _filters() => Tooltip(
         message: this.widget.filterName ?? 'Filter Options',
         child: IconButton(
-          icon: Icon(Icons.filter_list_sharp, color: Colors.grey[800]),
+          icon: Icon(Icons.filter_alt_sharp, color: Colors.grey[600], size: 20),
           onPressed: () {
             setState(() {
               _showFilterOptionsOverlay = !_showFilterOptionsOverlay;

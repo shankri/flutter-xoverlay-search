@@ -110,7 +110,7 @@ class _XSearchDropdownState extends State<XSearchDropdown> {
             top: 6,
             child: IconButton(
               splashRadius: 20,
-              icon: Icon(_showSearchOverlay ? Icons.arrow_drop_down : Icons.arrow_drop_up, color: Colors.grey[500]),
+              icon: Icon(Icons.arrow_drop_down_sharp, color: Colors.grey[500]),
               onPressed: () => setState(() {
                 _showSearchOverlay = !_showSearchOverlay;
                 if (!_initialLoadStatus) {
