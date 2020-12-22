@@ -193,10 +193,10 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
             filled: true,
             fillColor: Colors.grey[100],
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey[200]),
+              borderSide: BorderSide(color: Colors.grey[100]),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey[200]),
+              borderSide: BorderSide(color: Colors.grey[100]),
             ),
             hoverColor: Colors.transparent,
           ),
