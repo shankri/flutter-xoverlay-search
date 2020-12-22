@@ -184,7 +184,7 @@ class _SearchOptionsScreenState extends State<SearchOptionsScreen> {
   }
 
   Widget _keyboardSupportForFrom({@required Widget child, @required List<WordPair> dataList}) => XFAD(
-        onEscCallback: () => XOverlayStack().hideFirstVisible(),
+        onEscCallback: () => _fromXDropdownController.isOpen() ? _fromXDropdownController.hide() : XOverlayStack().hideFirstVisible(),
         onShiftTabCallback: () => _hasTheWordsFocus.requestFocus(),
         onTabCallback: () => _toFocus.requestFocus(),
         onArrowDownCallback: () {

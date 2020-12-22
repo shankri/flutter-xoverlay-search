@@ -46,6 +46,10 @@ class XSearchDropdownController {
     _xSearchDropdownState._focus();
     if (hide != null && hide) _xSearchDropdownState._hide();
   }
+
+  void hide() => _xSearchDropdownState._hide();
+
+  bool isOpen() => _xSearchDropdownState._showSearchOverlay;
 }
 
 class _XSearchDropdownState extends State<XSearchDropdown> {
