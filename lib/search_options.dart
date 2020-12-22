@@ -1,10 +1,9 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:xoverlay/random_list.dart';
-import 'package:xoverlay/xwidgets/x-fad.dart';
-import 'package:xoverlay/xwidgets/x-overlay.dart';
-import 'package:xoverlay/xwidgets/x-search-dropdown.dart';
+
+import 'random_list.dart';
+import 'xwidgets/xwidget_barrel.dart';
 
 typedef void SearchCallback(searchText);
 

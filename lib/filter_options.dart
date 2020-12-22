@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xoverlay/xwidgets/x-overlay.dart';
 
-import 'xwidgets/hover_extension.dart';
+import 'xwidgets/xwidget_barrel.dart';
 
 const List<String> _filters = ['All', 'Inbox', 'Social', 'Promotions'];
 typedef void SelectFilterCallback(int index);

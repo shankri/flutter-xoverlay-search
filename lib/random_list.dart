@@ -1,7 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'xwidgets/x-fad.dart';
-import 'xwidgets/hover_extension.dart';
+
+import 'xwidgets/xwidget_barrel.dart';
 
 typedef void SelectedItemCallback(selected);
 

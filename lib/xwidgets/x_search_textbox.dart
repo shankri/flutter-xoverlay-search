@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:xoverlay/xwidgets/hover_extension.dart';
-import 'package:xoverlay/xwidgets/x-overlay.dart';
+import 'xwidget_barrel.dart';
 
 ///Just SearchTextbox (, textfield, downarrow icon button)
 ///1. search icon button
@@ -12,7 +11,7 @@ import 'package:xoverlay/xwidgets/x-overlay.dart';
 ///Uses overlay widget to show suggestions and other options as overlay
 
 ///search callback function (to refresh the actual search list)
-typedef void SearchCallback(freeSearchText);
+typedef void SearchCallbackText(freeSearchText);
 
 ///this is for suggestion
 typedef void SuggestCallback(freeSearchTextAsUserIsTyping);
@@ -21,7 +20,7 @@ class XSearchTextbox extends StatefulWidget {
   final String searchHintText;
   final String initialvalue;
   final String filterName;
-  final SearchCallback searchCallback;
+  final SearchCallbackText searchCallback;
   final SuggestCallback suggestCallbackFunc;
   final Widget suggestListInOverlay;
   final Widget searchOptionsInOverlay;

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:xoverlay/xwidgets/x-overlay.dart';
+import 'xwidget_barrel.dart';
 
-typedef void SearchCallback(freeSearchTextAsUserIsTyping);
+typedef void SearchCallbackDropdown(freeSearchTextAsUserIsTyping);
 typedef String InitialValueCallback();
 
 class XSearchDropdown extends StatefulWidget {
@@ -11,7 +11,7 @@ class XSearchDropdown extends StatefulWidget {
   final bool autoFocus;
   final FocusNode searchTextFocusNode;
   final XSearchDropdownController xSearchDropdownController;
-  final SearchCallback searchCallback;
+  final SearchCallbackDropdown searchCallback;
   final InitialValueCallback initialValueCallback;
   final ValueChanged<String> onSubmitted;
 
