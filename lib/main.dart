@@ -47,6 +47,12 @@ class _MyHomePageState extends State<MyHomePage> {
             toolbarHeight: 75,
             elevation: 0,
           ),
+          bottomNavigationBar: Container(
+            color: Colors.grey[800],
+            alignment: Alignment.center,
+            height: 50,
+            child: Text('Search widget with Overlays', style: TextStyle(color: Colors.white70, fontSize: 15)),
+          ),
           body: Container(
             color: Colors.grey[200],
             child: Center(
