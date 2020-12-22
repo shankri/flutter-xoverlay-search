@@ -3,12 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 ///Overlay widget that be parent of any widget to show overlay content
-///This is a genetic implementation refer x-search-textbox for an example
+///This is generic implementation refer x_search_textbox or x_search_dropdown for real widget implementation
+///supports multiple widgets that are mutually exclusive
 class XOverlay extends StatefulWidget {
   final Widget child;
   final Map<String, Widget> insideOverlayWidgetMap;
   final XOverlayController xOverlayController;
-  //only when this widget closes overlay eg: click on glass pane or esc key
+  //callback function when the overlay is hidden
   final Function onHideOverlayFunc;
 
   XOverlay({
@@ -28,6 +29,8 @@ class XOverlay extends StatefulWidget {
 }
 
 ///xoverlay stack ... handle on multiple overlays as stack
+///this is helpful in hiding or shown contents as and when required
+///is very handy when we have nested overlays
 class XOverlayStack {
   static final XOverlayStack _instance = XOverlayStack._init();
   final List<XOverlayController> _stack = [];
@@ -57,7 +60,8 @@ class XOverlayStack {
   XOverlayController peek() => _stack.length > 0 ? _stack.last : null;
 }
 
-///controller to provider handle to the parent on when to show and hide overlay widget
+///controller to provider handle to the parent with some useful methods
+///also refer XOverlayStack
 class XOverlayController {
   _XOverlayState _xOverlayState;
 

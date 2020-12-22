@@ -5,6 +5,10 @@ import 'xwidget_barrel.dart';
 typedef void SearchCallbackDropdown(freeSearchTextAsUserIsTyping);
 typedef String InitialValueCallback();
 
+///editiable or searchable dropdown
+///uses x_overlay.dart to display overlays
+///it is just a TextField with overlay below it
+///refer _fromField() method of search_options.dart on use of this widget
 class XSearchDropdown extends StatefulWidget {
   final String labelText;
   final Widget searchListInOverlay;
@@ -35,6 +39,7 @@ class XSearchDropdown extends StatefulWidget {
   }
 }
 
+///controller to get handle on the textcontroller + other helper methods
 class XSearchDropdownController {
   _XSearchDropdownState _xSearchDropdownState;
 

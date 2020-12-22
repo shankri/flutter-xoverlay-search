@@ -5,6 +5,7 @@ import 'xwidgets/xwidget_barrel.dart';
 const List<String> _filters = ['All', 'Inbox', 'Social', 'Promotions'];
 typedef void SelectFilterCallback(int index);
 
+///filter options mockup screen
 class FilterOptions extends StatefulWidget {
   final int selectedFilterIndex;
   final SelectFilterCallback selectFilterCallback;

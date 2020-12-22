@@ -1,9 +1,9 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
-import 'filter_options.dart';
-import 'random_list.dart';
-import 'search_options.dart';
+import 'filter_options_screen.dart';
+import 'random_list_screen.dart';
+import 'search_options_screen.dart';
 import 'xwidgets/xwidget_barrel.dart';
 
 void main() => runApp(MyApp());

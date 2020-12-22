@@ -5,6 +5,7 @@ import 'xwidgets/xwidget_barrel.dart';
 
 typedef void SelectedItemCallback(selected);
 
+///List of some random words for demo
 class RandomList extends StatefulWidget {
   final SelectedItemCallback selectedItemCallback;
   final Icon icon;

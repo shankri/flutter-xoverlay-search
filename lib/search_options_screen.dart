@@ -2,11 +2,12 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'random_list.dart';
+import 'random_list_screen.dart';
 import 'xwidgets/xwidget_barrel.dart';
 
 typedef void SearchCallback(searchText);
 
+///serach options mockup
 class SearchOptionsScreen extends StatefulWidget {
   final String currentSearch;
   final SearchCallback searchCallback;

@@ -2,13 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'xwidget_barrel.dart';
 
-///Just SearchTextbox (, textfield, downarrow icon button)
-///1. search icon button
-///2. serach text field
-///3. search clear
-///4. down arrow, search options (overlay displayed right under)
-///5. filter options (icon button)
-///Uses overlay widget to show suggestions and other options as overlay
+///a composite search textbox (like gmail or google news)
+///uses x_overlay.dart to display all overlays
+///features:
+///1. 'suggest list' that appears right below textbox
+///2. 'x' icon appears to clear existing text search
+///3. 'search options' that appears below textbox (optional)
+///4. 'pick a filter' that appears below textbox (optional)
+///
+///all overlay widgets are mutually exclusive
 
 ///search callback function (to refresh the actual search list)
 typedef void SearchCallbackText(freeSearchText);

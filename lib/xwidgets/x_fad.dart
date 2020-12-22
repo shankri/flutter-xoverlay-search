@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-///home for FocusableActionDetector related implementation
+///common widget for handling FocusableActionDetector
+///supports both mouse (hover) and keyboard (specific list of keys)
+///supported keys: escape, tab, shift tab, enter, arrow up, arrow down
+///simple callback functions for each of these events
 class XFAD extends StatelessWidget {
   final Function onEscCallback;
   final Function onTabCallback;
