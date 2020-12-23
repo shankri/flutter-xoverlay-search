@@ -32,29 +32,31 @@ class _RandomListState extends State<RandomList> {
   }
 
   @override
-  Widget build(BuildContext context) => ListView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(0),
-        itemCount: widget.dataList.length,
-        itemBuilder: (context, index) {
-          return XFAD(
-            onHoverCallback: (bool value) => setState(() => _selectedIndex = index),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: _selectedIndex == index ? const Color.fromRGBO(220, 220, 220, 0.6) : Colors.transparent,
-                  border: Border(
-                    top: BorderSide(color: const Color.fromRGBO(220, 220, 220, 0.6)),
-                    bottom: BorderSide(color: const Color.fromRGBO(220, 220, 220, 0.6)),
-                    left: BorderSide(
-                      color: _selectedIndex == index ? Theme.of(context).primaryColor : Colors.transparent,
-                      width: 3,
-                    ),
-                  )),
-              child: _tile(index),
-            ).xShowPointerOnHover,
-          );
-        },
-      );
+  Widget build(BuildContext context) => widget.dataList.length == 0
+      ? _emptyList()
+      : ListView.builder(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(0),
+          itemCount: widget.dataList.length,
+          itemBuilder: (context, index) {
+            return XFAD(
+              onHoverCallback: (bool value) => setState(() => _selectedIndex = index),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: _selectedIndex == index ? const Color.fromRGBO(220, 220, 220, 0.6) : Colors.transparent,
+                    border: Border(
+                      top: BorderSide(color: const Color.fromRGBO(220, 220, 220, 0.6)),
+                      bottom: BorderSide(color: const Color.fromRGBO(220, 220, 220, 0.6)),
+                      left: BorderSide(
+                        color: _selectedIndex == index ? Theme.of(context).primaryColor : Colors.transparent,
+                        width: 3,
+                      ),
+                    )),
+                child: _tile(index),
+              ).xShowPointerOnHover,
+            );
+          },
+        );
 
   Widget _tile(index) => ListTile(
         hoverColor: Colors.transparent,
@@ -63,5 +65,16 @@ class _RandomListState extends State<RandomList> {
         onTap: () {
           if (widget.selectedItemCallback != null) widget.selectedItemCallback('${widget.dataList[index].first} - ${widget.dataList[index].second}');
         },
+      );
+
+  Widget _emptyList() => Container(
+        color: const Color.fromRGBO(183, 108, 97, 1),
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+        child: Row(
+          children: [
+            const SizedBox(width: 20),
+            const Text('Oops! found nothing', style: TextStyle(color: Colors.white)),
+          ],
+        ),
       );
 }

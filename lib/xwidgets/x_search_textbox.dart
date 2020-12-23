@@ -206,7 +206,7 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
   Widget _searchClear() => Tooltip(
         message: 'Clear Search',
         child: IconButton(
-          icon: Icon(Icons.close, color: Colors.grey[800]),
+          icon: Icon(Icons.close, color: Colors.grey[500]),
           onPressed: () {
             this._searchTextEditingController.text = '';
             _callSearchFunc();
@@ -218,7 +218,7 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
   Widget _searchOptions() => Tooltip(
         message: 'Search Options',
         child: IconButton(
-          icon: Icon(Icons.arrow_drop_down, color: Colors.grey[800]),
+          icon: Icon(Icons.arrow_drop_down, color: Colors.grey[500]),
           onPressed: () {
             setState(() {
               _showSearchOptionsOverlay = !_showSearchOptionsOverlay;
@@ -235,7 +235,7 @@ class _XSearchTextboxState extends State<XSearchTextbox> {
   Widget _filters() => Tooltip(
         message: this.widget.filterName ?? 'Filter Options',
         child: IconButton(
-          icon: Icon(Icons.filter_alt_sharp, color: Colors.grey[600], size: 20),
+          icon: Icon(Icons.filter_alt_sharp, color: Colors.grey[400], size: 20),
           onPressed: () {
             setState(() {
               _showFilterOptionsOverlay = !_showFilterOptionsOverlay;
