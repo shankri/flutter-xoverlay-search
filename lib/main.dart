@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _dataList = generateWordPairs(maxSyllables: 10).take(1000).toList()..removeWhere((element) => element.first[0] != srch[srch.length - 1]);
             _dataList = _dataList.length > 5 ? _dataList.sublist(0, 5) : _dataList;
           }),
-          searchHintText: 'Search words',
+          searchHintText: 'Search mail',
           initialvalue: _currentSearch,
           searchCallback: (freeSearchValue) => setState(() {
             if (_listSelectedIndex > -1)
